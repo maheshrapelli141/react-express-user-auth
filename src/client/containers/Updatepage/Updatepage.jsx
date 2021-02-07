@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../../actions';
+import { Avatar } from '../../components/Avatar';
 
 class Updatepage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            firstname: '',
-            lastname: '',
+            firstname: this.props.user.firstname || '',
+            lastname: this.props.user.lastname || '',
             avatar: null,
             submitted: false
         };
@@ -35,37 +36,37 @@ class Updatepage extends React.Component {
         this.setState({ submitted: true });
         const { firstname,lastname,avatar } = this.state;
         const { dispatch } = this.props;
-        
-        dispatch(userActions.update({ firstname,lastname,avatar }));
+        if(firstname &&lastname && avatar)
+          dispatch(userActions.update({ firstname,lastname,avatar }));
     }
 
     render() {
         const { loggingIn } = this.props;
-        console.log({loggingIn});
         const { submitted,firstname,lastname, avatar } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Update</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                 <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
-                        <label htmlFor="avatar">avatar</label>
+                        <label htmlFor="avatar">Avatar</label>
                         <input type="file" className="form-control" name="avatar" onChange={this.handleChange} />
                         {submitted && !avatar &&
-                            <div className="help-block">avatar is required</div>
+                            <div className="help-block">Avatar is required</div>
                         }
+                        <Avatar src={avatar} />
                     </div>
                 <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
-                        <label htmlFor="firstname">firstname</label>
+                        <label htmlFor="firstname">Firstname</label>
                         <input type="text" className="form-control" name="firstname" value={firstname} onChange={this.handleChange} />
                         {submitted && !firstname &&
-                            <div className="help-block">firstname is required</div>
+                            <div className="help-block">Firstname is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !lastname ? ' has-error' : '')}>
-                        <label htmlFor="lastname">lastname</label>
+                        <label htmlFor="lastname">Lastname</label>
                         <input type="text" className="form-control" name="lastname" value={lastname} onChange={this.handleChange} />
                         {submitted && !lastname &&
-                            <div className="help-block">lastname is required</div>
+                            <div className="help-block">Lastname is required</div>
                         }
                     </div>
                     <div className="form-group">
@@ -81,9 +82,10 @@ class Updatepage extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { loggingIn } = state.authentication;
+    const { loggingIn,user } = state.authentication;
     return {
-        loggingIn
+        loggingIn,
+        user
     };
 }
 

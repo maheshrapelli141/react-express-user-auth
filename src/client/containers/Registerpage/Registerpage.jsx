@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../../actions';
+import { Avatar } from '../../components/Avatar';
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class RegisterPage extends React.Component {
             firstname: '',
             lastname: '',
             avatar: null,
+            avatarUrl: '',
             submitted: false
         };
 
@@ -41,44 +43,44 @@ class RegisterPage extends React.Component {
         const { email, password, firstname,lastname,avatar } = this.state;
         const { dispatch } = this.props;
         console.log({e});
-        
-        dispatch(userActions.register({ email, password, firstname,lastname,avatar }));
+        if(email && password && firstname &&lastname && avatar)
+          dispatch(userActions.register({ email, password, firstname,lastname,avatar }));
     }
 
     render() {
         const { loggingIn } = this.props;
-        console.log({loggingIn});
-        const { email, password, submitted,firstname,lastname, avatar } = this.state;
+        const { email, password, submitted,firstname,lastname, avatar,avatarUrl } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                 <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
-                        <label htmlFor="avatar">avatar</label>
+                        <label htmlFor="avatar">Avatar</label>
                         <input type="file" className="form-control" name="avatar" onChange={this.handleChange} />
                         {submitted && !avatar &&
-                            <div className="help-block">avatar is required</div>
+                            <div className="help-block">Avatar is required</div>
                         }
+                        <Avatar src={avatar}/>
                     </div>
                 <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
-                        <label htmlFor="firstname">firstname</label>
+                        <label htmlFor="firstname">Firstname</label>
                         <input type="text" className="form-control" name="firstname" value={firstname} onChange={this.handleChange} />
                         {submitted && !firstname &&
-                            <div className="help-block">firstname is required</div>
+                            <div className="help-block">Firstname is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !lastname ? ' has-error' : '')}>
-                        <label htmlFor="lastname">lastname</label>
+                        <label htmlFor="lastname">Lastname</label>
                         <input type="text" className="form-control" name="lastname" value={lastname} onChange={this.handleChange} />
                         {submitted && !lastname &&
-                            <div className="help-block">lastname is required</div>
+                            <div className="help-block">Lastname is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !email ? ' has-error' : '')}>
-                        <label htmlFor="email">email</label>
+                        <label htmlFor="email">Email</label>
                         <input type="text" className="form-control" name="email" value={email} onChange={this.handleChange} />
                         {submitted && !email &&
-                            <div className="help-block">email is required</div>
+                            <div className="help-block">Email is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
@@ -94,6 +96,7 @@ class RegisterPage extends React.Component {
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         }
                     </div>
+                    <Link to="/login">Already have an account?</Link>
                 </form>
             </div>
         );

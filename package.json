@@ -10,7 +10,7 @@
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Sandeep Raveesh",
+  "author": "Mahesh Rapelli",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",

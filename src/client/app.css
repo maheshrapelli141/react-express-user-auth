@@ -3,6 +3,16 @@ h1 {
 }
 
 body {
-  text-align: center;
+  /* text-align: center; */
   margin: auto;
+}
+
+
+.help-block{
+  font-weight: lighter;
+  color: red
+}
+.rounded-img{
+  border-radius: 50%;
+  margin: 10px;
 }

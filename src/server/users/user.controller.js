@@ -16,9 +16,16 @@ module.exports = {
           status: 'error'
         });
       }
-      if (!files || !files.avatar) {
+      if (!files || !files.avatar) 
         return res.status(400).json({status:'error',message:'Avatar file required.'});
-      }
+      
+      const ext = files.avatar.name.split('.')[files.avatar.name.length - 1];
+      if(['jpg','jpeg','png'].includes(ext.toLowerCase()))
+        return res.status(400).json({status:'error',message:'Invalid file format.'});
+
+      if(files.avatar.size > 1000000)
+        return res.status(400).json({status:'error',message:'File size too large.'});
+
 
       let filename = '_avatar_' + Math.floor(new Date() / 1000) + files.avatar.name.substr(files.avatar.name.length - 100);
       const filepath = path.resolve('./','uploads');
@@ -81,7 +88,7 @@ module.exports = {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
-            avatar: '/uploads/' + user.avatar
+            avatar: req.headers.host + '/uploads/' + user.avatar
           };
 
           return res.status(200).json({
