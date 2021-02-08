@@ -1,7 +1,7 @@
 const config = {
     apiUrl: process.env.API_URL || 'http://localhost:8080',
     mongo: {
-      url: 'mongodb://localhost:27017/test'
+      url: 'mongodb://localhost:27018/test'
     },
     JWT: {
       secret: process.env.JWT_SEC || 'HelloWorld',

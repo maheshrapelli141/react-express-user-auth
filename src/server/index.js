@@ -10,11 +10,9 @@ const path = require('path');
 const app = express();
 const { isAuth } = require('./helpers/middlewares');
 
+app.use('/uploads', express.static(path.join(process.cwd() + '/uploads')));
+
 app.use(express.static('dist'));
-
-console.log('path',path.join(__dirname, '/uploads'));
-
-app.use('/uploads', express.static(process.cwd() + '/uploads'));
 
 app.use(cors());
 // app.use(bodyParser.urlencoded({ extended: false }))

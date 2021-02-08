@@ -19,8 +19,9 @@ module.exports = {
       if (!files || !files.avatar) 
         return res.status(400).json({status:'error',message:'Avatar file required.'});
       
-      const ext = files.avatar.name.split('.')[files.avatar.name.length - 1];
-      if(['jpg','jpeg','png'].includes(ext.toLowerCase()))
+      const filenameArray = files.avatar.name.split('.');
+      const ext = filenameArray[filenameArray.length - 1];
+      if(!['jpg','jpeg','png'].includes(ext.toLowerCase()))
         return res.status(400).json({status:'error',message:'Invalid file format.'});
 
       if(files.avatar.size > 1000000)
@@ -52,6 +53,7 @@ module.exports = {
       });
     }
     catch (e) {
+      console.log(e);
       return res.status(500).json({ status: 'error', message: e.message });
     }
   },
@@ -88,7 +90,7 @@ module.exports = {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
-            avatar: req.headers.host + '/uploads/' + user.avatar
+            avatar: 'http://'+req.headers.host + '/uploads/' + user.avatar
           };
 
           return res.status(200).json({
@@ -102,6 +104,7 @@ module.exports = {
       }
       );
     } catch (e) {
+      console.log(e);
       return res.status(500).json({ status: 'error', message: e.message });
     }
   },
@@ -134,11 +137,18 @@ module.exports = {
       delete fields.password;
       delete fields.email;
 
-      await Users.findByIdAndUpdate(req.user._id,{ $set: fields });
-
-      return res.status(200).json({ status: "success", message: "Updated Successfully" });
+      const updatedData = await Users.findByIdAndUpdate(req.user._id,{ $set: fields },{ safe: true, new: true });
+      const doc = updatedData._doc;
+      doc.avatar = 'http://'+req.headers.host+ '/uploads/'+doc.avatar;
+      return res
+        .status(200)
+        .json({ 
+          status: "success",
+          message: "Updated Successfully",
+          data: doc });
       
     } catch (e) {
+      console.log(e);
       return res.status(500).json({ status: 'error', message: e.message });
     }
   }

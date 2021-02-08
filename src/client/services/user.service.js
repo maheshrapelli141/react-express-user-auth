@@ -33,7 +33,6 @@ function update(payload) {
   const headers = {
     Authorization: JSON.parse(localStorage.getItem('user')).token
   };
-  console.log({headers});
   return api.post(`${config.apiUrl}/apis/user/update`,formData,{ headers });
 }
 

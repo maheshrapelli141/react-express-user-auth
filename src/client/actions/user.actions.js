@@ -22,8 +22,8 @@ function login(email, password) {
                     history.push('/');
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -44,8 +44,8 @@ function register(payload) {
                   history.push('/login');
               },
               error => {
-                  dispatch(failure(error));
-                  dispatch(alertActions.error(error));
+                  dispatch(failure(error.message));
+                  dispatch(alertActions.error(error.message));
               }
           );
   };
@@ -61,12 +61,15 @@ function update(payload) {
       userService.update(payload)
           .then(
               data => { 
-                  dispatch(success(data));
+                  const localUserData = JSON.parse(localStorage.getItem('user'));
+                  localUserData['data'] = data.data;
+                  localStorage.setItem('user',JSON.stringify(localUserData));
+                  dispatch(success(data.data));
                   history.push('/');
               },
               error => {
-                  dispatch(failure(error));
-                  dispatch(alertActions.error(error));
+                  dispatch(failure(error.message));
+                  dispatch(alertActions.error(error.message));
               }
           );
   };
