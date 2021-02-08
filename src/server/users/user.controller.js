@@ -132,6 +132,8 @@ module.exports = {
           if(err) return reject(err);
           return resolve(true);
         }));
+      } else {
+        delete fields.avatar;
       }
 
       delete fields.password;

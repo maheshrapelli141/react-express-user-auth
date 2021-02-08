@@ -34,9 +34,9 @@ class Updatepage extends React.Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { firstname,lastname,avatar } = this.state;
+        const { firstname,lastname, avatar } = this.state;
         const { dispatch } = this.props;
-        if(firstname &&lastname && avatar)
+        if(firstname &&lastname)
           dispatch(userActions.update({ firstname,lastname,avatar }));
     }
 
@@ -50,9 +50,9 @@ class Updatepage extends React.Component {
                 <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
                         <label htmlFor="avatar">Avatar</label>
                         <input type="file" className="form-control" name="avatar" onChange={this.handleChange} />
-                        {submitted && !avatar &&
+                        {/* {submitted && !avatar &&
                             <div className="help-block">Avatar is required</div>
-                        }
+                        } */}
                         <Avatar src={avatar} />
                     </div>
                 <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
